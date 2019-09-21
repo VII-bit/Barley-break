@@ -5,22 +5,15 @@ function shuffle(array) {
   }
 }
 
-let winArr = [1,2,3,4,5,6,7,8,''];
+let winArr = ['1','2','3','4','5','6','7','8',''];
 let arr = [1,2,3,4,5,6,7,8,''];
 shuffle(arr);
-
 
 let noArr = [td1,td2,td3,td4,td5,td6,td7,td8,td9];
 
 for (let i = 0; i < noArr.length; i++) {
     noArr[i].innerHTML = arr[i];
 }
-
-if (noArr == winArr) {
-	alert('WIN!!!!!');
-}
-
-
 
 window.addEventListener('click', func);
 
@@ -35,24 +28,39 @@ function func() {
 		"td" + (parseInt(targElem.id.slice(2)) - 3)
 	]
 
-	alert(targArr[0].innerHTML);
+	let result = targArr.filter(td => parseInt(td.slice(2)) <= 9 &&
+		parseInt(td.slice(2)) >= 0); //убирает несуществующие поля
+
+
+	if (result == '') {
+		return;
+	}
 
 	targNull = '';
 
-	for (let i = 0; i < targArr.length; i++) {
-		if (targArr[i]) {
-			targNull = targArr[i];
+	for (let i = 0; i < result.length; i++) {
+		if (document.getElementById(result[i]) === null) return;
+		else if (document.getElementById(result[i]).innerHTML == '') {
+			targNull = document.getElementById(result[i]).id;
 			break;
 		}
 	}
 
-	alert(targNull);
+	if (targNull == '') {
+		return;
+	}
 
-		//document.getElementById(secondElem).innerHTML = targElem.innerHTML;
-		//targElem.innerHTML = '';
-		
+	let temp = targElem.innerHTML;
+	targElem.innerHTML = document.getElementById(targNull).innerHTML;
+	document.getElementById(targNull).innerHTML = temp;
+
+	let finArr = [];
+
+	for (let i = 0; i < noArr.length; i++) {
+		finArr[i] = noArr[i].innerHTML;
+	}
+
+	if (finArr == winArr) { //don't work
+		alert('WIN!!!!!');
+	}
 }
-
-
-
-
